@@ -1,7 +1,7 @@
 version: '3'
 services:
   mariadb: 
-    image: "myimagecontainer.azurecr.io/mariadb/server:10.5"
+    image: "mariadb/server:10.5"
     container_name: seb-server-mariadb
     environment:
         MYSQL_ROOT_PASSWORD: somePW
@@ -19,7 +19,7 @@ services:
           context: .
           args:
               - SEBSERVER_VERSION=1.2-latest
-      image: myimagecontainer.azurecr.io/demo_seb-client:latest
+      image: demo_seb-client:latest
       container_name: seb-server
       environment:
           - SERVER_PORT=8080
@@ -39,7 +39,7 @@ services:
 
   seb-client:
       build: ./frontend-docker
-      image: myimagecontainer.azurecr.io/demo_seb-server:latest
+      image: demo_seb-server:latest
       container_name: seb-client
       ports:
           - 3000:3000

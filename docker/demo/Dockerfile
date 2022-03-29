@@ -4,10 +4,10 @@ ARG SEBSERVER_VERSION
 ARG GIT_TAG="v${SEBSERVER_VERSION}"
 
 WORKDIR /sebserver
-RUN mkdir seb-server
-COPY ./SEB-Server /sebserver/seb-server
+RUN if [ "x${GIT_TAG}" = "x" ] ; \
+    then git clone --depth 1 https://github.com/Virajanidh/test-seb-server.git ; \
+    else git clone -b "main" --depth 1 https://github.com/Virajanidh/test-seb-server.git ; fi
 WORKDIR /sebserver/seb-server/
-RUN echo $(ls)
 RUN git rev-parse --short HEAD > commit_hash
 
 FROM maven:latest
@@ -50,20 +50,3 @@ ENTRYPOINT export COMMIT_HASH=$(cat /sebserver/commit_hash) && exec java \
     --sebserver.password="${SERVER_PWD}"
 
 EXPOSE $SERVER_PORT $JMX_PORT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
